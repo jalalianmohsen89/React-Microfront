@@ -1,5 +1,7 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const path = require("path");
 
 const deps = require("./package.json").dependencies;
@@ -13,8 +15,11 @@ module.exports = {
   },
 
   devServer: {
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
     port: 3003,
-    historyApiFallback: true,
   },
 
   module: {
@@ -28,7 +33,10 @@ module.exports = {
       },
       {
         test: /\.(css|s[ac]ss)$/i,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          { loader: "css-loader", options: { sourceMap: true } },
+        ],
       },
       {
         test: /\.(ts|tsx|js|jsx)$/,
@@ -37,9 +45,28 @@ module.exports = {
           loader: "babel-loader",
         },
       },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              // Inline files smaller than 10 kB
+              limit: 10 * 1024,
+              // Remove the quotes from the url() declaration
+              // (they’re unnecessary in most cases)
+              noquotes: true,
+            },
+          },
+        ],
+      }
     ],
   },
-
+  optimization: {
+    minimizer: [new CssMinimizerPlugin({
+      minify: CssMinimizerPlugin.cleanCssMinify,
+    })],
+  },
   plugins: [
     new ModuleFederationPlugin({
       name: "my_app",
@@ -58,6 +85,7 @@ module.exports = {
         },
       },
     }),
+    new MiniCssExtractPlugin(),
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, 'public', 'index.html'),
       filename: 'index.html',
