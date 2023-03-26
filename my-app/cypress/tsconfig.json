@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": false,
+    "alwaysStrict": false,
+    "types": ["cypress"]
+  },
+  "extends": "@tsconfig/cypress/tsconfig.json",
+  "include": ["cypress/**/*.ts"],
+  "files": ["cypress/integration/App.spec.ts"]
+}
