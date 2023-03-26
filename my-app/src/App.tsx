@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 import "./index.css";
 
@@ -11,4 +10,4 @@ const App = () => (
     <div>CSS: Empty CSS</div>
   </div>
 );
-ReactDOM.render(<App />, document.getElementById("app"));
+export default App
