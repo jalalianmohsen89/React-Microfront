@@ -4,7 +4,7 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const deps = require("./package.json").dependencies;
 module.exports = {
   output: {
-    publicPath: "http://localhost:3004/",
+    publicPath: "http://localhost:3005/",
   },
 
   resolve: {
@@ -12,7 +12,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 3004,
+    port: 3005,
     historyApiFallback: true,
   },
 
@@ -27,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.(css|s[ac]ss)$/i,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(ts|tsx|js|jsx)$/,
@@ -44,7 +44,9 @@ module.exports = {
       name: "component_service",
       filename: "remoteEntry.js",
       remotes: {},
-      exposes: {},
+      exposes: {
+        "./MyButton":"./src/MyButton.tsx"
+      },
       shared: {
         ...deps,
         react: {

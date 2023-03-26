@@ -6,6 +6,8 @@ import logo from "./logo.svg";
 import './App.css';
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+// @ts-ignore
+const MyButton = React.lazy(() => import("component_service/MyButton"));
 
 
 const App = (): JSX.Element => {
@@ -19,7 +21,7 @@ const App = (): JSX.Element => {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo"/>
-          <div>
+          <div style={{marginBottom:'1rem'}}>
             <Button variant="contained" color='error' style={{padding: '1rem'}} size="large"
                     onClick={() => setShowDialog(true)}>نمایش دیالوگ</Button>
             {showDialog && <Dialog isOpen={showDialog} onClose={() => setShowDialog(false)}/>}
@@ -27,6 +29,7 @@ const App = (): JSX.Element => {
               برای نمایش دیالوگ می توانید کلیدهای ترکیبی ctrl + shift + f2 را نیز فشار دهید
             </Typography>
           </div>
+          <MyButton/>
           <div>
             <nav>
               <ul style={{display: 'flex', listStyle: 'none'}}>
