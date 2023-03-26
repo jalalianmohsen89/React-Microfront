@@ -1,8 +1,13 @@
 import React from "react";
+import type { RootState } from '../store'
+import { useSelector, useDispatch } from 'react-redux'
+import { save } from '../store/reducer'
 
 const Users = (): JSX.Element => {
+  const textField = useSelector((state: RootState) => state.text.textField)
+  const dispatch = useDispatch()
   return (
-      <h1>users</h1>
+      <div onClick={() =>dispatch(save('users page'))}>{textField}</div>
   )
 }
 
